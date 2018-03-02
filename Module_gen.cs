@@ -28,7 +28,8 @@ public class Module_gen : MonoBehaviour {
 	}
 	
 	public void addModule(bool test = false){
-		if(run) {
+		Debug.Log("addModule was called");
+		if(run && (mod_ctr < mod_limit)) {
 			int rando = Random.Range(0, totalChance);
 			int newDiff = 0;
 			for (int i=1; i<=difficulty; i++){
@@ -36,7 +37,7 @@ public class Module_gen : MonoBehaviour {
 					break;
 				else newDiff = i;
 			}
-			GameObject newModule; 
+			GameObject newModule;
 			if (mod_ctr % 6 == 5){
 				newModule = Instantiate(sz.gameObject);
 				newModule.GetComponent<Transform> ().position = currentPos;
@@ -64,12 +65,14 @@ public class Module_gen : MonoBehaviour {
 	}
 	
 	void startLevel(int buffer){
+		Debug.Log("startLevel was called");
 		for (int i=0; i<buffer; i++){
 			addModule();
 		}
 	}
 
 	void setLevel(){
+		Debug.Log("setLevel was called");
 		while(mod_ctr < mod_limit)
 		{
 			int mod_type = Random.Range (0, m.Length);
@@ -83,9 +86,32 @@ public class Module_gen : MonoBehaviour {
 			mod_ctr++;
 		}
 	}
+	
+	void tLevel(){
+		Debug.Log("tLevel was called");
+		while(mod_ctr < mod_limit)
+		{
+			Debug.Log("tLevel Log: " + mod_ctr);
+			int mod_type = Random.Range (0, m.Length);
+			
+
+			GameObject newModule = Instantiate (m[mod_ctr].gameObject);
+			newModule.GetComponent<Transform> ().position = currentPos;
+			module mod = newModule.GetComponent<module> ();
+			mod.setup(this);
+			currentPos = mod.getEnd ();
+			mod_ctr++;
+		}
+		GameObject szModule = Instantiate (sz.gameObject);
+		szModule.GetComponent<Transform> ().position = currentPos;
+		module szmod = szModule.GetComponent<module> ();
+		szmod.setup(this);
+		currentPos = szmod.getEnd ();
+	}
 
 	void Start ()
 	{
+		RenderSettings.ambientLight = GlobalVariables.acolor;
 		StartCoroutine(timer());
 		difficulty = GlobalVariables.difficulty;
 		totalChance = difficulty*(difficulty+1)/2;
@@ -104,7 +130,8 @@ public class Module_gen : MonoBehaviour {
 			addModule(true);
 			return;
 		}
-		if (infinite) startLevel(3);
+		if(GlobalVariables.tutorial) tLevel();
+		else if (infinite) startLevel(3);
 		else setLevel ();
 	}
 }
