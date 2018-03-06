@@ -14,10 +14,11 @@ public class Reset_Parameters : MonoBehaviour {
 	void OnTriggerEnter(Collider body)
 	{
 		Parameter_Changer ParScript = parChngr.gameObject.GetComponent<Parameter_Changer>();
-		defGrav = ParScript.Grav;
-		defJSpd = ParScript.JS;
-		defSpd = ParScript.Spd;
-		defMt = ParScript.MT;
+		float[] stats = ParScript.getStats();
+		defGrav = stats[0];
+		defJSpd = stats[1];
+		defSpd = stats[2];
+		defMt = ParScript.getMT();
 		if(body.tag == "Player")
 		{
 			try{

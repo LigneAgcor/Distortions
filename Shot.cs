@@ -6,6 +6,7 @@ public class Shot : MonoBehaviour {
 	
 	public float speed = 6.0f;
 	public int direction = 1;
+	public Proj_gen origin;
 	// Use this for initialization
 	void Start () {
 		if(direction == 1)
