@@ -15,7 +15,9 @@ public class Proj_gen : MonoBehaviour {
 			if(Time.time > limiter)
 			{
 				limiter = Time.time + interval;
-				Instantiate(prj[shot_type], gen_placement.position, gen_placement.rotation);
+				GameObject projectile = prj[shot_type];
+				projectile.GetComponent<Shot>().origin = this;
+				Instantiate(projectile, gen_placement.position, gen_placement.rotation);
 			}
 	}
 }

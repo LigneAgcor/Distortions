@@ -27,14 +27,18 @@ public class Test_Teleport : MonoBehaviour {
 	}
 	void Update()
 	{
-		if(Player.transform.position.y < resetpoint.y)
+		if(Player.transform.position.y < resetpoint.y || player_control.hitPrj || player_control.life <= 0)
 		{
-			Debug.Log(resettables.Count);
+			// Debug.Log(resettables.Count);
+			player_control.stopBleed();
+			player_control.life = 100f;
+			player_control.hitPrj = false;
 			Player.position = startpoint;
 			Player.rotation = Quaternion.identity;
 			player_control.defGravity = defGrav;
 			player_control.defJumpSpeed = defJSpd;
 			player_control.defSpeed = defSpd;
+			player_control.startBleed();
 			foreach (Resettable r in resettables){
 				r.reset();
 			}

@@ -15,6 +15,11 @@ public class module : MonoBehaviour {
 		return resets;
 	}
 	
+	public float getLow(){ return lowest;}
+	public Module_gen getGen(){ return gen;}
+	public Test_Teleport getTp(){ return tp;}
+	public module getDel(){ return deleter;}
+	
 	public void AddToReset(Resettable r){
 		resets.Add(r);
 		Debug.Log("Added " + r + " to List: " + resets.Count);
@@ -69,7 +74,7 @@ public class module : MonoBehaviour {
 	public void OnTriggerExit(Collider other){
 		if (other.tag == "Player"){
 			gen.addModule();
-			tp.reset(lowest - 10f, this);
+			tp.reset(lowest - 25f, this);
 			GetComponent<Collider>().enabled = false;
 			if (deleter != null) Destroy(deleter.gameObject);
 		}
